@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.smart.countriesapp.R
 import com.smart.countriesapp.model.Country
+import com.smart.countriesapp.util.downloadFromURL
+import com.smart.countriesapp.util.placeholderProgressBar
 import com.smart.countriesapp.view.FeedFragmentDirections
 import kotlinx.android.synthetic.main.item_country.view.*
 
@@ -25,6 +27,7 @@ class CountryAdapter(private val countryList: ArrayList<Country>):
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         holder.view.name.text = countryList[position].countryName
         holder.view.region.text = countryList[position].countryRegion
+        countryList[position].imageUrl?.let { holder.view.imageView.downloadFromURL(it, placeholderProgressBar(holder.view.context)) }
 
         holder.view.setOnClickListener {
             val action = FeedFragmentDirections.actionFeedFragment2ToCountryFragment2()

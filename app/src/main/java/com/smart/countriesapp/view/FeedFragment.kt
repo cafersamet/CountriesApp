@@ -1,13 +1,11 @@
 package com.smart.countriesapp.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smart.countriesapp.R
 import com.smart.countriesapp.adapter.CountryAdapter
@@ -40,6 +38,14 @@ class FeedFragment : Fragment() {
 
         countryRecyclerView.layoutManager = LinearLayoutManager(context)
         countryRecyclerView.adapter = countryAdapter
+
+        swipeRefreshLayout.setOnRefreshListener {
+            countryRecyclerView.visibility = View.GONE
+            countryError.visibility = View.GONE
+            countryLoading.visibility = View.VISIBLE
+            swipeRefreshLayout.isRefreshing = false
+            viewModel.refreshData()
+        }
 
         observeLiveData()
     }
