@@ -10,10 +10,10 @@ class CountryApiService {
     // https://raw.githubusercontent.com
     // atilsamancioglu/IA19-DataSetCountries/master/countrydataset.json
 
-    private val BASE_URL = "https://raw.githubusercontent.com"
+    private val baseURL = "https://raw.githubusercontent.com"
 
     private val api = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(baseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()

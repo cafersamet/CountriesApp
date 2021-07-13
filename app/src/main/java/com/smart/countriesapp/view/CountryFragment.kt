@@ -1,13 +1,14 @@
 package com.smart.countriesapp.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.smart.countriesapp.R
+import com.smart.countriesapp.util.downloadFromURL
+import com.smart.countriesapp.util.placeholderProgressBar
 import com.smart.countriesapp.viewmodel.CountryViewModel
 import kotlinx.android.synthetic.main.fragment_country.*
 
@@ -33,12 +34,13 @@ class CountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
-        viewModel.getDataFromRoom()
-
         arguments?.let {
             countryUuid = CountryFragmentArgs.fromBundle(it).countryUuid
         }
+
+        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
+        viewModel.getDataFromRoom(countryUuid)
+
         observeLiveData()
     }
 
@@ -50,7 +52,9 @@ class CountryFragment : Fragment() {
                 countryCapital.text = country.countryCapital
                 countryCurrency.text = country.countryCurrency
                 countryLanguage.text = country.countryLanguage
-
+                context?.let {
+                    countryImage.downloadFromURL(country.imageUrl, placeholderProgressBar(it))
+                }
             }
         })
     }

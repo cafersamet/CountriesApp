@@ -14,7 +14,7 @@ fun String.myExtension(myParam: String){
 }
 */
 
-fun ImageView.downloadFromURL(url: String, progressDrawable: CircularProgressDrawable){
+fun ImageView.downloadFromURL(url: String?, progressDrawable: CircularProgressDrawable){
     val options = RequestOptions.placeholderOf(progressDrawable)
         .error(R.drawable.ic_launcher_foreground)
 
