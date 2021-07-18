@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="country"
+            type="com.smart.countriesapp.model.Country" />
     </data>
 
     <RelativeLayout
@@ -14,11 +17,12 @@
         <ImageView
             android:id="@+id/countryImage"
             android:layout_width="match_parent"
-            android:padding="16sp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:minHeight="200dp"
-            android:scaleType="fitCenter" />
+            android:padding="16sp"
+            android:scaleType="fitCenter"
+            android:downloadUrl="@{country.imageUrl}" />
 
         <TextView
             android:id="@+id/countryName"
@@ -27,6 +31,7 @@
             android:layout_below="@id/countryImage"
             android:layout_centerHorizontal="true"
             android:layout_margin="12dp"
+            android:text="@{country.countryName}"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -37,6 +42,7 @@
             android:layout_below="@id/countryName"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
+            android:text="@{country.countryCapital}"
             android:textSize="16sp" />
 
         <TextView
@@ -46,6 +52,7 @@
             android:layout_below="@id/countryCapital"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
+            android:text="@{country.countryRegion}"
             android:textSize="16sp" />
 
         <TextView
@@ -55,6 +62,7 @@
             android:layout_below="@id/countryRegion"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
+            android:text="@{country.countryCurrency}"
             android:textSize="16sp" />
 
         <TextView
@@ -64,6 +72,7 @@
             android:layout_below="@id/countryCurrency"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
+            android:text="@{country.countryLanguage}"
             android:textSize="16sp" />
 
     </RelativeLayout>
