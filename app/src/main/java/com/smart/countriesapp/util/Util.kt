@@ -14,6 +14,8 @@ fun String.myExtension(myParam: String){
     println(myParam)
 }
 */
+const val baseURL = "https://raw.githubusercontent.com"
+
 
 fun ImageView.downloadFromURL(url: String?, progressDrawable: CircularProgressDrawable){
     val options = RequestOptions.placeholderOf(progressDrawable)

@@ -7,15 +7,20 @@ import com.smart.countriesapp.database.CountryDatabase
 import com.smart.countriesapp.model.Country
 import com.smart.countriesapp.service.CountryApiService
 import com.smart.countriesapp.util.CustomSharedPreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FeedViewModel(application: Application) : BaseViewModel(application) {
+@HiltViewModel
+class FeedViewModel @Inject constructor(
+    application: Application,
+    private val countryApiService: CountryApiService
+) : BaseViewModel(application) {
     val countries = MutableLiveData<List<Country>>()
-    private val countryApiService = CountryApiService()
     private val disposable = CompositeDisposable()
     private var customSharedPreferences = CustomSharedPreferences(getApplication())
     private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
@@ -37,7 +42,7 @@ class FeedViewModel(application: Application) : BaseViewModel(application) {
 
     }
 
-    fun refreshFromAPI(){
+    fun refreshFromAPI() {
         getDataFromApi()
     }
 

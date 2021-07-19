@@ -5,6 +5,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -85,5 +86,10 @@ dependencies {
 //    implementation "com.android.support:design:$supportVersion"
 
     implementation "androidx.preference:preference-ktx:$preferencesVersion"
+
+    def hilt_version = "2.35"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
 
 }

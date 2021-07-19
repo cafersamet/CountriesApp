@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smart.countriesapp.R
 import com.smart.countriesapp.adapter.CountryAdapter
 import com.smart.countriesapp.viewmodel.FeedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 /**
@@ -17,9 +18,10 @@ import kotlinx.android.synthetic.main.fragment_feed.*
  * Use the [FeedFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class FeedFragment : Fragment() {
 
-    private lateinit var viewModel: FeedViewModel
+    private val viewModel: FeedViewModel by viewModels()
     private val countryAdapter = CountryAdapter(arrayListOf())
 
     override fun onCreateView(
@@ -33,7 +35,6 @@ class FeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.refreshData()
 
         countryRecyclerView.layoutManager = LinearLayoutManager(context)
