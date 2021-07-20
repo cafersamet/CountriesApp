@@ -1,7 +1,7 @@
 package com.smart.countriesapp.di
 
 import com.smart.countriesapp.service.CountryApi
-import com.smart.countriesapp.service.CountryApiService
+import com.smart.countriesapp.service.CountryApiRepository
 import com.smart.countriesapp.util.baseURL
 import dagger.Module
 import dagger.Provides
@@ -18,8 +18,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCountryRepository(api : CountryApi) : CountryApiService{
-        return CountryApiService(api)
+    fun provideCountryRepository(api : CountryApi) : CountryApiRepository{
+        return CountryApiRepository(api)
     }
 
     @Singleton

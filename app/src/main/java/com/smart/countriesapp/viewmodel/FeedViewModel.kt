@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.smart.countriesapp.database.CountryDatabase
 import com.smart.countriesapp.model.Country
-import com.smart.countriesapp.service.CountryApiService
+import com.smart.countriesapp.service.CountryApiRepository
 import com.smart.countriesapp.util.CustomSharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     application: Application,
-    private val countryApiService: CountryApiService
+    private val countryApiService: CountryApiRepository
 ) : BaseViewModel(application) {
     val countries = MutableLiveData<List<Country>>()
     private val disposable = CompositeDisposable()
@@ -64,7 +64,7 @@ class FeedViewModel @Inject constructor(
                 .subscribeWith(object : DisposableSingleObserver<List<Country>>() {
                     override fun onSuccess(t: List<Country>) {
                         storeInRoom(t)
-                        Toast.makeText(getApplication(), "Countries From API", Toast.LENGTH_LONG)
+                        Toast.makeText(getApplication(), "Countries From API", Toast.LENGTH_SHORT)
                             .show()
                     }
 

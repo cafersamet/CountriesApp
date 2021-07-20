@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.smart.countriesapp.R
 import com.smart.countriesapp.databinding.FragmentCountryBinding
 import com.smart.countriesapp.viewmodel.CountryViewModel
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_country.*
  */
 class CountryFragment : Fragment() {
 
-    private lateinit var viewModel: CountryViewModel
+    private val viewModel: CountryViewModel by viewModels()
     private var countryUuid = 0
     private lateinit var dataBinding: FragmentCountryBinding
 
@@ -40,7 +40,6 @@ class CountryFragment : Fragment() {
             countryUuid = CountryFragmentArgs.fromBundle(it).countryUuid
         }
 
-        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
         viewModel.getDataFromRoom(countryUuid)
 
         observeLiveData()
