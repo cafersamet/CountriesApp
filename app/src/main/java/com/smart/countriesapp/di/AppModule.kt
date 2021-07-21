@@ -1,11 +1,15 @@
 package com.smart.countriesapp.di
 
+import android.content.Context
+import androidx.room.Room
+import com.smart.countriesapp.database.CountryDatabase
 import com.smart.countriesapp.service.CountryApi
 import com.smart.countriesapp.service.CountryApiRepository
 import com.smart.countriesapp.util.baseURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -33,7 +37,15 @@ object AppModule {
             .create(CountryApi::class.java)
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideApplication() = App()
+    @Singleton
+    @Provides
+    fun provideCountryDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
+        context.applicationContext,
+        CountryDatabase::class.java,
+        "countrydatabase"
+    ).build()
+
+    @Singleton
+    @Provides
+    fun provideCountryDao(countryDatabase: CountryDatabase) = countryDatabase.countryDao()
 }

@@ -3,7 +3,7 @@ package com.smart.countriesapp.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.smart.countriesapp.database.CountryDatabase
+import com.smart.countriesapp.database.CountryDao
 import com.smart.countriesapp.model.Country
 import com.smart.countriesapp.service.CountryApiRepository
 import com.smart.countriesapp.util.CustomSharedPreferences
@@ -18,13 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     application: Application,
-    private val countryApiService: CountryApiRepository
+    private val countryApiService: CountryApiRepository,
+    private val dao: CountryDao
 ) : BaseViewModel(application) {
     val countries = MutableLiveData<List<Country>>()
     private val disposable = CompositeDisposable()
     private var customSharedPreferences = CustomSharedPreferences(getApplication())
     private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
-
 
     val countryError = MutableLiveData<Boolean>()
     val countryLoading = MutableLiveData<Boolean>()
@@ -48,7 +48,6 @@ class FeedViewModel @Inject constructor(
 
     private fun getDataFromRoom() {
         launch {
-            val dao = CountryDatabase(getApplication()).countryDao()
             val countries = dao.getAllCountries()
             showCountries(countries)
             Toast.makeText(getApplication(), "Countries From Room Database", Toast.LENGTH_LONG)
@@ -86,7 +85,6 @@ class FeedViewModel @Inject constructor(
 
     private fun storeInRoom(countryList: List<Country>) {
         launch {
-            val dao = CountryDatabase(getApplication()).countryDao()
             dao.deleteAllCountries()
             val listIDs = dao.insertAll(*countryList.toTypedArray())  //-> individual
             val newList = dao.getAllCountries()

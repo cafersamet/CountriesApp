@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.smart.countriesapp.R
 import com.smart.countriesapp.databinding.FragmentCountryBinding
 import com.smart.countriesapp.viewmodel.CountryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_country.*
 
 
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_country.*
  * Use the [CountryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class CountryFragment : Fragment() {
 
     private val viewModel: CountryViewModel by viewModels()
