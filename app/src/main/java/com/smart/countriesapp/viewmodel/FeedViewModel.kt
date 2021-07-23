@@ -3,6 +3,8 @@ package com.smart.countriesapp.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.smart.countriesapp.database.CountryDao
 import com.smart.countriesapp.model.Country
 import com.smart.countriesapp.service.CountryApiRepository
@@ -17,13 +19,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    application: Application,
+    private val application: Application,
     private val countryApiService: CountryApiRepository,
     private val dao: CountryDao
-) : BaseViewModel(application) {
+) : ViewModel() {
     val countries = MutableLiveData<List<Country>>()
     private val disposable = CompositeDisposable()
-    private var customSharedPreferences = CustomSharedPreferences(getApplication())
+    private var customSharedPreferences = CustomSharedPreferences(application)
     private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
 
     val countryError = MutableLiveData<Boolean>()
@@ -47,10 +49,10 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun getDataFromRoom() {
-        launch {
+        viewModelScope.launch {
             val countries = dao.getAllCountries()
             showCountries(countries)
-            Toast.makeText(getApplication(), "Countries From Room Database", Toast.LENGTH_LONG)
+            Toast.makeText(application, "Countries From Room Database", Toast.LENGTH_LONG)
                 .show()
         }
     }
@@ -63,7 +65,7 @@ class FeedViewModel @Inject constructor(
                 .subscribeWith(object : DisposableSingleObserver<List<Country>>() {
                     override fun onSuccess(t: List<Country>) {
                         storeInRoom(t)
-                        Toast.makeText(getApplication(), "Countries From API", Toast.LENGTH_SHORT)
+                        Toast.makeText(application, "Countries From API", Toast.LENGTH_SHORT)
                             .show()
                     }
 
@@ -84,7 +86,7 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun storeInRoom(countryList: List<Country>) {
-        launch {
+        viewModelScope.launch {
             dao.deleteAllCountries()
             val listIDs = dao.insertAll(*countryList.toTypedArray())  //-> individual
             val newList = dao.getAllCountries()
